@@ -1,5 +1,3 @@
-import 'dart:io';
-
 class Solution {
   int numOfStrings(List<String> patterns, String word) {
     int ans = 0;

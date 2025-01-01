@@ -9,7 +9,7 @@ class Solution {
       }
     }
     List<int>? temp = List.from(map.values);
-    for (var i = 0; i < temp!.length; i++) {
+    for (var i = 0; i < temp.length; i++) {
       if (temp[0] != temp[i]) {
         return false;
       }
