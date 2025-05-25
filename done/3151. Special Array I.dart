@@ -1,11 +1,9 @@
 class Solution {
   bool isArraySpecial(List<int> nums) {
-    if (nums.length == 1) {
-      return false;
-    }
+    if (nums.length == 1) return true;
+
     for (var i = 0; i < nums.length - 1; i++) {
-      if ((nums[i].isEven && nums[i + 1].isEven) ||
-          (nums[i].isOdd && nums[i + 1].isOdd)) {
+      if (nums[i] % 2 == nums[i + 1] % 2) {
         return false;
       }
     }

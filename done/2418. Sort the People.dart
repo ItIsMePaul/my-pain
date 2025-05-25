@@ -1,4 +1,16 @@
+import 'dart:collection';
+
 class Solution {
+  List<String> sortPeople(List<String> names, List<int> heights) {
+    SplayTreeMap<int, String> map = SplayTreeMap();
+    for (var i = 0; i < names.length; i++) {
+      map[heights[i]] = names[i];
+    }
+    return map.values.toList().reversed.toList();
+  }
+}
+
+/*class Solution {
   List<String> sortPeople(List<String> names, List<int> heights) {
     Map<int, String> data = {};
     for (var i = 0; i < names.length; i++) {
@@ -11,4 +23,4 @@ class Solution {
     }
     return result;
   }
-}
+}*/
