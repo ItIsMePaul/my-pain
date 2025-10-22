@@ -1,0 +1,8 @@
+-- Write your PostgreSQL query statement below
+SELECT user_id, CONCAT(
+        UPPER(SUBSTRING(name, 1, 1)), LOWER(
+            SUBSTRING(name, 2, LENGTH(name))
+        )
+    ) AS name --INITCAP capitalizes the first letter of each word in a string (won't work for this problem)
+FROM Users
+ORDER BY user_id ASC;

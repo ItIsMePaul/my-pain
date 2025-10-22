@@ -6,8 +6,8 @@ class Solution {
       cost += k * (n % k);
     } 
     if (m > k) {
-      if (m % k == 0) cost += (m ~/ 2) * (n ~/ 2);
-      cost += k * (n % k);
+      if (m % k == 0) cost += (m ~/ 2) * (m ~/ 2);
+      cost += k * (m % k);
     } 
     return cost;
   }

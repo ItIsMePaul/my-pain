@@ -1,0 +1,62 @@
+WITH
+    driver_efficiency AS (
+        SELECT
+            trips.driver_id,
+            drivers.driver_name,
+            AVG(
+                CASE
+                    WHEN EXTRACT(
+                        MONTH
+                        FROM trips.trip_date
+                    ) < 7 THEN trips.distance_km / trips.fuel_consumed
+                END
+            ) AS first_half_avg,
+            AVG(
+                CASE
+                    WHEN EXTRACT(
+                        MONTH
+                        FROM trips.trip_date
+                    ) > 6 THEN trips.distance_km / trips.fuel_consumed
+                END
+            ) AS second_half_avg
+        FROM trips
+            JOIN drivers ON drivers.driver_id = trips.driver_id
+        GROUP BY
+            trips.driver_id,
+            drivers.driver_name
+        HAVING
+            COUNT(
+                CASE
+                    WHEN EXTRACT(
+                        MONTH
+                        FROM trips.trip_date
+                    ) < 7 THEN 1
+                END
+            ) > 0
+            AND COUNT(
+                CASE
+                    WHEN EXTRACT(
+                        MONTH
+                        FROM trips.trip_date
+                    ) > 6 THEN 1
+                END
+            ) > 0
+    )
+SELECT
+    driver_id,
+    driver_name,
+    ROUND(first_half_avg, 2) as first_half_avg,
+    ROUND(second_half_avg, 2) as second_half_avg,
+    ROUND(
+        (
+            second_half_avg - first_half_avg
+        ),
+        2
+    ) as efficiency_improvement
+FROM driver_efficiency
+WHERE (
+        second_half_avg - first_half_avg
+    ) > 0.0
+ORDER BY
+    efficiency_improvement DESC,
+    driver_name ASC;
