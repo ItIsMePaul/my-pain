@@ -6,7 +6,6 @@ class ListNode {
 
 class Solution {
   ListNode? sortList(ListNode? head) {
-    if (head == null) return null;
     List<int> list = [];
     while (head != null) {
       list.add(head.val);
@@ -14,11 +13,11 @@ class Solution {
     }
     list.sort();
     print(list);
-    head = ListNode(list.removeAt(0));
-    ListNode? current = head;
+    ListNode? current = ListNode(list.removeAt(0));
+    head = current;
     for (var val in list) {
-      current!.next = ListNode(val);
-      current = current.next;
+      current.val = val;
+      current.next = current;
     }
     return head;
   }
