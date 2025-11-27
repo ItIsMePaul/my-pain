@@ -1,38 +1,34 @@
 class Solution {
   bool isPathCrossing(String path) {
-    List<String> listpath = path.split('');
-    List<int> position = [0, 0];
-    List<List<int>> historyPosition = [
-      [0, 0],
-    ];
-    for (var i = 0; i < listpath.length; i++) {
-      String p = listpath[i];
-      print(p);
-      switch (p) {
+    Set<String> seen = {};
+    List<int> origin = [0, 0];
+    seen.add(origin.join('|'));
+    for (var i = 0; i < path.length; i++) {
+      switch (path[i]) {
         case 'N':
-          position[0] = position[0] + 1;
-          print('N');
+          origin[0]++;
+          break;
         case 'S':
-          position[0] = position[0] - 1;
-          print('S');
+          origin[0]--;
+          break;
         case 'E':
-          position[1] = position[1] + 1;
-          print('E');
+          origin[1]++;
+          break;
         case 'W':
-          position[1] = position[1] - 1;
-          print('W');
+          origin[1]--;
+          break;
       }
-      print(position);
-      if (historyPosition.contains(position)) {
+      String temp = origin.join('|');
+      if (seen.contains(temp)) {
         return true;
-      }
-      int j = 0;
-      historyPosition.add([]);
-      for (var c in position) {
-        historyPosition[i + 1].insert(j, c);
-        j++;
+      } else {
+        seen.add(temp);
       }
     }
     return false;
   }
+}
+
+void main() {
+  print(Solution().isPathCrossing("NEEEEEEEEEENNNNNNNNNNWWWWWWWWWW"));
 }

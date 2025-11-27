@@ -1,0 +1,33 @@
+WITH Attended AS (
+    SELECT
+        student_id,
+        subject_name,
+        COUNT(*) AS attended_exams
+    FROM
+        Examinations
+    GROUP BY
+        student_id,
+        subject_name
+    ORDER BY
+        student_id
+)
+SELECT
+    Students.student_id,
+    Students.student_name,
+    Subjects.subject_name,
+    COALESCE(Attended.attended_exams, 0) AS attended_exams
+FROM
+    Students
+CROSS JOIN
+    Subjects
+FULL JOIN
+    Attended
+    ON Attended.student_id = Students.student_id AND Attended.subject_name = Subjects.subject_name
+GROUP BY
+    Students.student_id,
+    Students.student_name,
+    Subjects.subject_name,
+    Attended.attended_exams
+ORDER BY
+    Students.student_id,
+    Subjects.subject_name;
