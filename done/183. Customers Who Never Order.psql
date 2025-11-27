@@ -1,0 +1,4 @@
+  SELECT name as Customers
+  FROM Customers
+  FULL JOIN Orders ON Orders.customerId = Customers.id
+  WHERE  Orders.customerId is null;
