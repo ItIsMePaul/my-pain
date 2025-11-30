@@ -52,8 +52,7 @@ class MKAverage {
         break;
       }
     }
-    return ((sum - sumOfSmallest - sumOfBiggest) / (queue.length - 2 * k))
-        .floor();
+    return ((sum - sumOfSmallest - sumOfBiggest) / (m - 2 * k)).floor();
   }
 }
 
