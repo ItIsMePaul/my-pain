@@ -1,0 +1,29 @@
+WITH
+  parsed_ips AS (
+    SELECT
+      ip,
+      status_code,
+      STRING_TO_ARRAY(ip, '.') AS ip_array
+    FROM
+      logs
+  )
+SELECT
+  ip,
+  count(ip) AS invalid_count
+FROM
+  parsed_ips
+WHERE
+  NOT array_length(ip_array, 1) = 4
+  OR ip_array[1] ~ '^0[0-9]'
+  OR ip_array[2] ~ '^0[0-9]'
+  OR ip_array[3] ~ '^0[0-9]'
+  OR ip_array[4] ~ '^0[0-9]'
+  OR (ip_array::int[]) [1] NOT BETWEEN 0 AND 255
+  OR (ip_array::int[]) [2] NOT BETWEEN 0 AND 255
+  OR (ip_array::int[]) [3] NOT BETWEEN 0 AND 255
+  OR (ip_array::int[]) [4] NOT BETWEEN 0 AND 255
+GROUP BY
+  ip
+ORDER BY
+  invalid_count DESC,
+  ip DESC;
